@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Work — Zezus Agency</title>
+<meta name="description" content="Explore all projects by Zezus Agency — premium web design & development for restaurants, healthcare, e-commerce, real estate, and SaaS platforms.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Zezus Agency">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0D0D'/%3E%3Ctext x='50%25' y='73%25' text-anchor='middle' font-family='Georgia,serif' font-size='22' font-weight='900' fill='%239B0000'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════
+   RESET & TOKENS
+══════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --red:    #9B0000;
+  --red-l:  #C0392B;
+  --dark:   #0D0D0D;
+  --mid:    #141414;
+  --mid2:   #1A1A1A;
+  --ease:   cubic-bezier(0.25,0.46,0.45,0.94);
+  --ease2:  cubic-bezier(0.16,1,0.3,1);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--dark);
+  color: #fff;
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+}
+@media (hover:none),(pointer:coarse) {
+  body { cursor: auto; }
+  #cur-dot, #cur-ring { display: none !important; }
+}
+a { text-decoration: none; color: inherit; }
+
+/* ══════════════════════════════════
+   NOISE GRAIN
+══════════════════════════════════ */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9990; opacity: .45;
+}
+
+/* ══════════════════════════════════
+   CURSOR
+══════════════════════════════════ */
+#cur-dot {
+  position: fixed; width: 6px; height: 6px;
+  background: var(--red); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .2s var(--ease2), height .2s var(--ease2), opacity .2s;
+}
+#cur-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1px solid rgba(155,0,0,.45); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: width .45s var(--ease2), height .45s var(--ease2),
+              background .3s, border-color .3s;
+}
+body.c-link #cur-dot { width: 0; height: 0; opacity: 0; }
+body.c-link #cur-ring {
+  width: 48px; height: 48px;
+  background: rgba(155,0,0,.06);
+  border-color: rgba(155,0,0,.3);
+}
+body.c-view #cur-dot { width: 0; height: 0; opacity: 0; }
+body.c-view #cur-ring {
+  width: 56px; height: 56px;
+  background: rgba(155,0,0,.07);
+  border-color: rgba(155,0,0,.32);
+  border-radius: 50%;
+}
+
+/* ══════════════════════════════════
+   SCROLL PROGRESS
+══════════════════════════════════ */
+#sp {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: linear-gradient(90deg, var(--red), var(--red-l));
+  z-index: 9997; transition: width .08s linear;
+}
+
+/* ══════════════════════════════════
+   PAGE COVER TRANSITION
+══════════════════════════════════ */
+#cover {
+  position: fixed; inset: 0;
+  background: var(--dark);
+  z-index: 8888;
+  transform-origin: bottom;
+  animation: coverUp 1s var(--ease2) forwards;
+}
+@keyframes coverUp {
+  0%   { transform: scaleY(1); }
+  100% { transform: scaleY(0); }
+}
+
+/* ══════════════════════════════════
+   NAV
+══════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 60px;
+  opacity: 0;
+  animation: fadeIn .7s ease .8s forwards;
+}
+nav::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(13,13,13,.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(155,0,0,.12);
+  z-index: 0;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900;
+  position: relative; z-index: 1;
+  transition: opacity .3s;
+}
+.nav-logo:hover { opacity: .65; }
+.nav-logo span { color: var(--red); }
+.nav-right {
+  display: flex; align-items: center; gap: 32px;
+  position: relative; z-index: 1;
+}
+.nav-back {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.38); font-weight: 500;
+  transition: color .3s;
+}
+.nav-back:hover { color: #fff; }
+.back-pill {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  transition: border-color .3s, transform .4s var(--ease2);
+}
+.nav-back:hover .back-pill { border-color: rgba(255,255,255,.35); transform: translateX(-3px); }
+.nav-cta {
+  background: var(--red); color: #fff;
+  padding: 10px 24px; font-size: 12px;
+  letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;
+  transition: background .3s;
+}
+.nav-cta:hover { background: var(--red-l); }
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* ══════════════════════════════════
+   HERO HEADER
+══════════════════════════════════ */
+.page-hero {
+  padding: 160px 60px 80px;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid rgba(155,0,0,.1);
+}
+.hero-orb {
+  position: absolute;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(155,0,0,.1) 0%, transparent 65%);
+  border-radius: 50%;
+  right: -150px; top: -150px;
+  pointer-events: none;
+  animation: orb 10s ease-in-out infinite;
+}
+@keyframes orb {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end; gap: 40px;
+  position: relative; z-index: 1;
+}
+.hero-label {
+  font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+  color: var(--red); font-weight: 500;
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+  opacity: 0; animation: slideUp .7s var(--ease2) .85s forwards;
+}
+.hero-label::before { content: ''; width: 28px; height: 1px; background: var(--red); }
+.hero-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 6vw, 88px);
+  font-weight: 900; line-height: .95;
+  letter-spacing: -3px;
+  opacity: 0; animation: slideUp .8s var(--ease2) .95s forwards;
+}
+.hero-h em { font-style: italic; color: var(--red); }
+.hero-right {
+  opacity: 0; animation: slideUp .8s var(--ease2) 1.05s forwards;
+  display: flex; flex-direction: column; gap: 20px;
+  align-items: flex-end;
+}
+.hero-desc {
+  font-size: 14px; color: rgba(255,255,255,.38);
+  line-height: 1.85; font-weight: 300;
+  max-width: 340px; text-align: right;
+}
+.hero-count {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.2);
+}
+.hero-count strong { color: var(--red); font-style: normal; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════
+   FILTER TABS
+══════════════════════════════════ */
+.filters {
+  padding: 36px 60px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(155,0,0,.08);
+  flex-wrap: wrap;
+  opacity: 0; animation: fadeIn .7s ease 1.1s forwards;
+}
+.filter-btn {
+  padding: 8px 20px;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 500; border: 1px solid rgba(255,255,255,.08);
+  color: rgba(255,255,255,.35); background: none; cursor: pointer;
+  transition: all .3s; font-family: 'DM Sans', sans-serif;
+}
+.filter-btn:hover { border-color: rgba(155,0,0,.35); color: rgba(255,255,255,.7); }
+.filter-btn.active {
+  background: var(--red); border-color: var(--red);
+  color: #fff;
+}
+.filter-label {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.18); font-weight: 500;
+  margin-right: 8px;
+}
+
+/* ══════════════════════════════════
+   PROJECTS GRID
+══════════════════════════════════ */
+.projects {
+  padding: 60px 60px 100px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+/* Each project is a full-width cinematic card */
+.proj-card {
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  height: 520px;
+  z-index: 1;
+  transition: transform .4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow .4s ease;
+}
+.proj-card:hover {
+  z-index: 2;
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.proj-card.d1 { transition-delay: .05s; }
+.proj-card.d2 { transition-delay: .15s; }
+.proj-card.d3 { transition-delay: .25s; }
+.proj-card.d4 { transition-delay: .35s; }
+.proj-card.d5 { transition-delay: .45s; }
+
+/* Image fills the card at full resolution — 1920×940 source */
+.proj-img-wrap {
+  position: absolute; inset: 0;
+  overflow: hidden;
+}
+.proj-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  display: block;
+  z-index: 1;
+}
+
+/* Gradient fallback bg (shows if no image yet) */
+.proj-fallback {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 120px; font-weight: 900;
+  color: rgba(255,255,255,.04);
+  z-index: 0;
+}
+.fb-1 { background: linear-gradient(145deg, #200000, #5a0000); }
+.fb-2 { background: linear-gradient(145deg, #0a0a1f, #14143d); }
+.fb-3 { background: linear-gradient(145deg, #001508, #003518); }
+.fb-4 { background: linear-gradient(145deg, #0f0800, #2a1a00); }
+.fb-5 { background: linear-gradient(145deg, #00101a, #00263d); }
+
+/* Dark gradient overlay from bottom */
+.proj-overlay {
+  position: absolute; inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.95) 0%,
+    rgba(0,0,0,.5)  30%,
+    rgba(0,0,0,.1)  60%,
+    transparent     100%
+  );
+}
+.proj-card:hover .proj-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.98) 0%,
+    rgba(0,0,0,.55) 35%,
+    rgba(0,0,0,.15) 65%,
+    transparent     100%
+  );
+}
+
+/* Top-right number */
+.proj-num {
+  position: absolute; top: 32px; right: 36px;
+  z-index: 3;
+  font-family: 'Playfair Display', serif;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.2); font-weight: 400;
+  transition: color .3s;
+}
+.proj-card:hover .proj-num { color: rgba(255,255,255,.4); }
+
+/* Bottom info area */
+.proj-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 3;
+  padding: 40px 44px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.proj-info-left { display: flex; flex-direction: column; gap: 10px; }
+.proj-cat {
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--red); font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+}
+.proj-cat::before { content: ''; width: 20px; height: 1px; background: var(--red); }
+.proj-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 900; line-height: 1;
+  letter-spacing: -1.5px;
+}
+.proj-desc {
+  font-size: 13px; color: rgba(255,255,255,.38);
+  font-weight: 300; max-width: 400px; line-height: 1.6;
+  margin-top: 4px;
+}
+.proj-info-right {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 14px;
+}
+.proj-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 28px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 500;
+  transition: background .3s, gap .3s, transform .3s var(--ease2);
+  white-space: nowrap;
+}
+.proj-link:hover { background: var(--red-l); gap: 18px; }
+.proj-link-ghost {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.35); font-weight: 500;
+  transition: color .3s, gap .3s;
+}
+.proj-link-ghost:hover { color: #fff; gap: 14px; }
+
+/* Tags row */
+.proj-tags {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;
+}
+.proj-tag {
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,.22);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 4px 10px;
+  transition: border-color .3s, color .3s;
+}
+.proj-card:hover .proj-tag { border-color: rgba(155,0,0,.3); color: rgba(255,255,255,.45); }
+
+/* Hide/show for filter */
+.proj-card.hidden {
+  display: none;
+}
+
+/* ══════════════════════════════════
+   CTA FOOTER
+══════════════════════════════════ */
+.page-cta {
+  background: var(--mid);
+  padding: 100px 60px;
+  text-align: center;
+  border-top: 1px solid rgba(155,0,0,.1);
+  position: relative; overflow: hidden;
+}
+.cta-orb {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(155,0,0,.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-label {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--red); margin-bottom: 20px; font-weight: 500;
+  position: relative;
+}
+.cta-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900; line-height: 1;
+  letter-spacing: -2px; margin-bottom: 16px;
+  position: relative;
+}
+.cta-h em { font-style: italic; color: var(--red); }
+.cta-sub {
+  font-size: 14px; color: rgba(255,255,255,.35);
+  font-weight: 300; margin-bottom: 44px;
+  line-height: 1.7; position: relative;
+}
+.cta-btns {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; flex-wrap: wrap; position: relative;
+}
+.btn-red {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--red); color: #fff;
+  padding: 16px 40px; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase; font-weight: 500;
+  transition: background .3s, gap .3s;
+}
+.btn-red:hover { background: var(--red-l); gap: 16px; }
+.btn-ghost-outline {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.45);
+  padding: 16px 40px; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase; font-weight: 500;
+  transition: border-color .3s, color .3s, gap .3s;
+}
+.btn-ghost-outline:hover { border-color: rgba(155,0,0,.5); color: #fff; gap: 16px; }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+.page-footer {
+  padding: 28px 60px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid rgba(155,0,0,.08);
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-copy {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,.18); font-weight: 400;
+}
+.footer-copy em { color: var(--red); font-style: normal; }
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  .nav-right .nav-cta { display: none; }
+  .page-hero { padding: 110px 24px 60px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .hero-right { align-items: flex-start; }
+  .hero-desc { text-align: left; }
+  .filters { padding: 24px; }
+  .projects { padding: 40px 24px 60px; gap: 3px; }
+  .proj-card { height: 360px; }
+  .proj-info { padding: 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .proj-info-right { align-items: flex-start; }
+  .proj-title { font-size: 28px; }
+  .page-cta { padding: 72px 24px; }
+  .page-footer { padding: 24px; flex-direction: column; text-align: center; }
+}
+</style>
+<link rel="preload" as="image" href="soleil.webp">
+<link rel="preload" as="image" href="void.webp">
+<link rel="preload" as="image" href="aurum.webp">
+<link rel="preload" as="image" href="afsar.webp">
+<link rel="preload" as="image" href="meridian.webp">
+</head>
+<body>
+
+<!-- Page reveal -->
+<div id="cover"></div>
+
+<!-- Cursor -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- Scroll progress -->
+<div id="sp"></div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="zezus-agency-final.html" class="nav-logo">Zezus<span>.</span></a>
+  <div class="nav-right">
+    <a href="zezus-agency-final.html" class="nav-back">
+      <span class="back-pill">←</span>
+      Back to Home
+    </a>
+    <a href="contact.html" class="nav-cta">Start a Project</a>
+  </div>
+</nav>
+
+<!-- ══ PAGE HERO ══ -->
+<div class="page-hero">
+  <div class="hero-orb"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Portfolio</div>
+      <h1 class="hero-h">Our<br><em>Full</em><br>Work.</h1>
+    </div>
+    <div class="hero-right">
+      <p class="hero-desc">Every project is built with the same obsession — make it fast, make it beautiful, make it convert. Browse all five of our current showcase projects below.</p>
+      <div class="hero-count">Showing <strong>5</strong> of 5 Projects</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FILTER TABS ══ -->
+<div class="filters">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="restaurant">Restaurant</button>
+  <button class="filter-btn" data-filter="ecommerce">E-Commerce</button>
+  <button class="filter-btn" data-filter="saas">SaaS</button>
+  <button class="filter-btn" data-filter="healthcare">Healthcare</button>
+  <button class="filter-btn" data-filter="realestate">Real Estate</button>
+</div>
+
+<!-- ══ PROJECTS ══ -->
+<div class="projects">
+
+  <!-- ── PROJECT 1 — Soleil Restaurant ── -->
+  <div class="proj-card d1" data-cat="restaurant">
+    <div class="proj-img-wrap">
+      <div class="proj-fallback fb-1">☀</div>
+      <!-- Your image at 1920×940px: -->
+      <img class="proj-img" src="soleil.webp" alt="Soleil Restaurant — Mediterranean Fine Dining website" loading="eager"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="proj-overlay"></div>
+    <div class="proj-num">01 / 05</div>
+    <div class="proj-info">
+      <div class="proj-info-left">
+        <div class="proj-cat">Restaurant · Fine Dining</div>
+        <div class="proj-title">Soleil Restaurant</div>
+        <div class="proj-desc">Modern Mediterranean dining experience. Online reservations, seasonal menu, and immersive storytelling.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Web Design</span>
+          <span class="proj-tag">UI/UX</span>
+          <span class="proj-tag">Reservations</span>
+          <span class="proj-tag">Animations</span>
+        </div>
+      </div>
+      <div class="proj-info-right">
+        <a href="https://soleil-restaurant-demo.netlify.app/" target="_blank" rel="noopener" class="proj-link">
+          View Live Site ↗
+        </a>
+        <a href="contact.html" class="proj-link-ghost">Want this style? →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROJECT 2 — VOID Clothing ── -->
+  <div class="proj-card d2" data-cat="ecommerce">
+    <div class="proj-img-wrap">
+      <div class="proj-fallback fb-3">▲</div>
+      <img class="proj-img" src="void.webp" alt="VOID Clothing Brand — Streetwear E-Commerce website" loading="eager"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="proj-overlay"></div>
+    <div class="proj-num">02 / 05</div>
+    <div class="proj-info">
+      <div class="proj-info-left">
+        <div class="proj-cat">E-Commerce · Streetwear</div>
+        <div class="proj-title">VOID Clothing Brand</div>
+        <div class="proj-desc">Drop-culture streetwear brand. Limited edition drops, real-time countdown, full cart & checkout flow.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">E-Commerce</span>
+          <span class="proj-tag">Brand Identity</span>
+          <span class="proj-tag">Drop System</span>
+          <span class="proj-tag">Custom UI</span>
+        </div>
+      </div>
+      <div class="proj-info-right">
+        <a href="https://void-clothingbrand-demo.netlify.app/" target="_blank" rel="noopener" class="proj-link">
+          View Live Site ↗
+        </a>
+        <a href="contact.html" class="proj-link-ghost">Want this style? →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROJECT 3 — Aurum SaaS ── -->
+  <div class="proj-card d3" data-cat="saas">
+    <div class="proj-img-wrap">
+      <div class="proj-fallback fb-5">◉</div>
+      <img class="proj-img" src="aurum.webp" alt="Aurum Finance Platform — SaaS Dashboard website" loading="eager"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="proj-overlay"></div>
+    <div class="proj-num">03 / 05</div>
+    <div class="proj-info">
+      <div class="proj-info-left">
+        <div class="proj-cat">SaaS · FinTech Platform</div>
+        <div class="proj-title">Aurum Finance Platform</div>
+        <div class="proj-desc">Institutional-grade financial intelligence platform for wealth managers and family offices. Pricing, dashboard previews, and conversion-focused layout.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">SaaS</span>
+          <span class="proj-tag">Web Design</span>
+          <span class="proj-tag">Dashboard UI</span>
+          <span class="proj-tag">Pricing Page</span>
+        </div>
+      </div>
+      <div class="proj-info-right">
+        <a href="https://aurum-saas-demo.netlify.app/" target="_blank" rel="noopener" class="proj-link">
+          View Live Site ↗
+        </a>
+        <a href="contact.html" class="proj-link-ghost">Want this style? →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROJECT 4 — Asfar Medical Centre ── -->
+  <div class="proj-card d4" data-cat="healthcare">
+    <div class="proj-img-wrap">
+      <div class="proj-fallback fb-2">⚕</div>
+      <img class="proj-img" src="afsar.webp" alt="Asfar Medical Centre — Healthcare Clinic website" loading="eager"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="proj-overlay"></div>
+    <div class="proj-num">04 / 05</div>
+    <div class="proj-info">
+      <div class="proj-info-left">
+        <div class="proj-cat">Healthcare · Medical Centre</div>
+        <div class="proj-title">Asfar Medical Centre</div>
+        <div class="proj-desc">Full-featured medical centre website with online appointment booking, doctor profiles, specialties, and patient information system.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Healthcare</span>
+          <span class="proj-tag">Booking System</span>
+          <span class="proj-tag">Web Design</span>
+          <span class="proj-tag">SEO</span>
+        </div>
+      </div>
+      <div class="proj-info-right">
+        <a href="https://afsar-clinic-demo.netlify.app/" target="_blank" rel="noopener" class="proj-link">
+          View Live Site ↗
+        </a>
+        <a href="contact.html" class="proj-link-ghost">Want this style? →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROJECT 5 — Meridian Real Estate ── -->
+  <div class="proj-card d5" data-cat="realestate">
+    <div class="proj-img-wrap">
+      <div class="proj-fallback fb-4">◈</div>
+      <img class="proj-img" src="meridian.webp" alt="Meridian Real Estate — Premium Property Agency website" loading="eager"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="proj-overlay"></div>
+    <div class="proj-num">05 / 05</div>
+    <div class="proj-info">
+      <div class="proj-info-left">
+        <div class="proj-cat">Real Estate · Premium Agency</div>
+        <div class="proj-title">Meridian Real Estate</div>
+        <div class="proj-desc">Premium real estate agency with property listings, advanced search filters, agent profiles, and lead generation system.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Real Estate</span>
+          <span class="proj-tag">Property Search</span>
+          <span class="proj-tag">Web Design</span>
+          <span class="proj-tag">Lead Gen</span>
+        </div>
+      </div>
+      <div class="proj-info-right">
+        <a href="https://realestate-meridian-demo.netlify.app/" target="_blank" rel="noopener" class="proj-link">
+          View Live Site ↗
+        </a>
+        <a href="contact.html" class="proj-link-ghost">Want this style? →</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .projects -->
+
+<!-- ══ PAGE CTA ══ -->
+<div class="page-cta">
+  <div class="cta-orb"></div>
+  <p class="cta-label">Your Turn</p>
+  <h2 class="cta-h">Like What<br>You <em>See?</em></h2>
+  <p class="cta-sub">Let's build something this good — or better — for your business.</p>
+  <div class="cta-btns">
+    <a href="contact.html" class="btn-red">Start Your Project →</a>
+    <a href="zezus-agency-final.html" class="btn-ghost-outline">Back to Home</a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="page-footer">
+  <span class="footer-copy">© 2026 Zezus Agency. All rights reserved.</span>
+  <span class="footer-copy">Crafted with <em>♥</em> by Zezus</span>
+</div>
+
+<script>
+/* ── CURSOR ── */
+if (!window.matchMedia('(hover:none),(pointer:coarse)').matches) {
+  const dot = document.getElementById('cur-dot');
+  const ring = document.getElementById('cur-ring');
+  let mx=0,my=0,rx=0,ry=0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx+'px'; dot.style.top = my+'px';
+  });
+  (function raf(){
+    rx += (mx-rx)*.1; ry += (my-ry)*.1;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(raf);
+  })();
+
+  document.querySelectorAll('a, button, .filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('c-link'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('c-link'));
+  });
+  document.querySelectorAll('.proj-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      document.body.classList.remove('c-link');
+      document.body.classList.add('c-view');
+    });
+    el.addEventListener('mouseleave', () => document.body.classList.remove('c-view'));
+  });
+}
+
+/* ── SCROLL PROGRESS ── */
+const sp = document.getElementById('sp');
+window.addEventListener('scroll', () => {
+  sp.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+}, {passive:true});
+
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.proj-card').forEach(el => obs.observe(el));
+
+/* ── FILTER ── */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.proj-card');
+const countEl = document.querySelector('.hero-count');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    let visible = 0;
+
+    cards.forEach((card, i) => {
+      const match = filter === 'all' || card.dataset.cat === filter;
+      if (match) {
+        card.classList.remove('hidden');
+        // Re-trigger animation
+        card.classList.remove('visible');
+        setTimeout(() => card.classList.add('visible'), i * 80);
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    if (countEl) {
+      countEl.innerHTML = `Showing <strong>${visible}</strong> of 5 Projects`;
+    }
+  });
+});
+
+/* ── PAGE EXIT TRANSITION ── */
+document.querySelectorAll('a[href]').forEach(a => {
+  const href = a.getAttribute('href');
+  if (!href || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel') || href.startsWith('#')) return;
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = this.getAttribute('href');
+    const cover = document.createElement('div');
+    cover.style.cssText = 'position:fixed;inset:0;background:#0D0D0D;z-index:9000;transform:scaleY(0);transform-origin:bottom;transition:transform .7s cubic-bezier(0.16,1,0.3,1)';
+    document.body.appendChild(cover);
+    setTimeout(() => cover.style.transform = 'scaleY(1)', 10);
+    setTimeout(() => window.location.href = target, 750);
+  });
+});
+</script>
+</body>
+</html>
